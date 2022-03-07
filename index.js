@@ -130,5 +130,18 @@ if(!guild) return;
 }
 }) 
 
+client.on('interactionCreate', async (interaction) => { 
+
+if (!interaction.isCommand()) return;     
+
+if (interaction.member.voice.channel.id === "950187127021400165" && interaction.commandName === 'ping') {         
+
+await interaction.reply('Pong!');     
+
+} 
+
+}); 
+
+
 
 client.login(process.env.token)
