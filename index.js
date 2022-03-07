@@ -12,6 +12,7 @@ const config = require('./config.json')
 const { SpotifyPlugin } = require('@distube/spotify')
 const { SoundCloudPlugin } = require('@distube/soundcloud')
 const { YtDlpPlugin } = require('@distube/yt-dlp')
+const { keepalive } = require("./keepalive")
 
 client.config = require('./config.json')
 client.distube = new DisTube(client, {
