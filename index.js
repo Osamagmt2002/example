@@ -131,34 +131,16 @@ if(!guild) return;
 }) 
 
 
-
-client.on("voiceStateUpdate", (message, new1) => {
-
-    var channel = "950187127021400165";
-    var role = "1"
-    set(message,new1,channel,role);
-  });
-  
-  function set(o,n,channel,role){
-    if (!o.voiceChannel && n.voiceChannel) {
-      if (n.voiceChannelID == channel) {
-          n.addRole(n.guild.roles.find("name", role));
-      };
-  
-    } else if (o.voiceChannel && !n.voiceMove) {
-      if (o.voiceChannelID == channel) {
-          n.removeRole(n.guild.roles.find("name", role))
-  
-  
-  
-  } else if (o.voiceChannel && !n.voiceChannel) {
-      if (o.voiceChannelID == channel) {
-          n.removeRole(n.guild.roles.find("name", role))
-      }
-  }
-  }
-  }
-
-
+client.on("voiceStateUpdate", async (oldState, newState) => { 
+const memberRole = oldState.guild.roles.cache.get("950227093608886302");
+  if (!memberRole) return;
+  if (newState.channelID) { 
+    newState.member.roles.add(memberRole);
+  } else 
+    if (oldState.channelID && !newState.channelID) {
+      newState.member.roles.remove(memberRole);
+    }
+}}
+          });
 
 client.login(process.env.token)
