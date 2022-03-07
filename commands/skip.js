@@ -1,5 +1,6 @@
 module.exports = {
   name: 'skip',
+  aliases: ['s'],
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = client.distube.getQueue(message)
