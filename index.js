@@ -144,20 +144,16 @@ client.on("voiceStateUpdate", (oldS, newS) => {
         let setting = voice_roles.find(set => set.channel == newS.channelID || set.channel == newS.channel.name);
         if (!setting) return;
         let role = newS.guild.roles.cache.find(r => r.id == setting.role || r.name == setting.role);
-        if (role) newS.member.roles.add(role, "Auto Voice Role (Join)");
+        if (role) newS.member.roles.add(role);
     } else if (oldS.channel !== null && newS.channel == null) {
         let setting = voice_roles.find(set => set.channel == oldS.channelID);
         if (!setting) return;
         let role = newS.guild.roles.cache.find(r => r.id == setting.role || r.name == setting.role);
-        if (role) newS.member.roles.remove(role, "Auto Voice Role (Leave)");
+        if (role) newS.member.roles.remove(role);
         oldS.channel.overwritePermissions([{
             id: oldS.member.id,
             deny: ["CONNECT"]
-        }], "Prevent Spam (Auto Role.)").then((channel) => {
-            setTimeout(() => {
-                channel.permissionOverwrites.get(oldS.member.id).delete("Time out (Auto Role.)");
-            }, 3000);
-        })
+        }]
     }
 });
 
