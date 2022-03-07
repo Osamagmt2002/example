@@ -130,17 +130,36 @@ if(!guild) return;
 }
 }) 
 
-client.on('interactionCreate', async (interaction) => { 
-
-if (!interaction.isCommand()) return;     
-
-if (interaction.member.voice.channel.id === "950187127021400165" && interaction.commandName === 'ping') {         
-
-await interaction.reply('Pong!');     
-
-} 
-
-}); 
+const voice_roles = [{
+        channel: "950187127021400165", //ايدي او اسم الروم
+        role: "950227093608886302" //ايدي او اسم الرتبة
+    },
+    {
+        channel: "950187154682835054", //ايدي او اسم الروم
+        role: "&950227140266315777" //ايدي او اسم الرتبة
+    }
+]
+client.on("voiceStateUpdate", (oldS, newS) => {
+    if (oldS.channel == null && newS.channel !== null) {
+        let setting = voice_roles.find(set => set.channel == newS.channelID || set.channel == newS.channel.name);
+        if (!setting) return;
+        let role = newS.guild.roles.cache.find(r => r.id == setting.role || r.name == setting.role);
+        if (role) newS.member.roles.add(role, "Auto Voice Role (Join)");
+    } else if (oldS.channel !== null && newS.channel == null) {
+        let setting = voice_roles.find(set => set.channel == oldS.channelID);
+        if (!setting) return;
+        let role = newS.guild.roles.cache.find(r => r.id == setting.role || r.name == setting.role);
+        if (role) newS.member.roles.remove(role, "Auto Voice Role (Leave)");
+        oldS.channel.overwritePermissions([{
+            id: oldS.member.id,
+            deny: ["CONNECT"]
+        }], "Prevent Spam (Auto Role.)").then((channel) => {
+            setTimeout(() => {
+                channel.permissionOverwrites.get(oldS.member.id).delete("Time out (Auto Role.)");
+            }, 3000);
+        })
+    }
+});
 
 
 
