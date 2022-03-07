@@ -118,4 +118,18 @@ client.distube
 // )
 // .on("searchDone", () => {})
 
+const { joinVoiceChannel } = require('@discordjs/voice'); client.on('ready', () => { 
+var channel = client.channels.cache.get('950187127021400165');
+let guild = client.guilds.cache.get("933298935647330314")
+if(!guild) return;
+    if (channel){
+ joinVoiceChannel({
+ channelId: channel.id,
+ guildId: guild.id,
+ adapterCreator: guild.voiceAdapterCreator }) 
+
+}
+}) 
+
+
 client.login(config.token)
