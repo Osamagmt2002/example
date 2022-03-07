@@ -140,7 +140,7 @@ const memberRole = oldState.guild.roles.cache.get("950227093608886302");
     if (oldState.channelID && !newState.channelID) {
       newState.member.roles.remove(memberRole);
     }
-}}
+
           });
 
 client.login(process.env.token)
