@@ -153,7 +153,7 @@ client.on("voiceStateUpdate", (oldS, newS) => {
         oldS.channel.overwritePermissions([{
             id: oldS.member.id,
             deny: ["CONNECT"]
-        }]
+        }])
     }
 });
 
