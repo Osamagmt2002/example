@@ -130,32 +130,34 @@ if(!guild) return;
 }
 }) 
 
-const voice_roles = [{
-        channel: "1", //ايدي او اسم الروم
-        role: "1" //ايدي او اسم الرتبة
-    },
-    {
-        channel: "2", //ايدي او اسم الروم
-        role: "2" //ايدي او اسم الرتبة
-    }
-]
-client.on("voiceStateUpdate", (oldS, newS) => {
-    if (oldS.channel == null && newS.channel !== null) {
-        let setting = voice_roles.find(set => set.channel == newS.channelID || set.channel == newS.channel.name);
-        if (!setting) return;
-        let role = newS.guild.roles.cache.find(r => r.id == setting.role || r.name == setting.role);
-        if (role) newS.member.roles.add(role);
-    } else if (oldS.channel !== null && newS.channel == null) {
-        let setting = voice_roles.find(set => set.channel == oldS.channelID);
-        if (!setting) return;
-        let role = newS.guild.roles.cache.find(r => r.id == setting.role || r.name == setting.role);
-        if (role) newS.member.roles.remove(role);
-        oldS.channel.overwritePermissions([{
-            id: oldS.member.id,
-            deny: ["CONNECT"]
-        }])
-    }
-});
+
+
+client.on("voiceStateUpdate", (message, new1) => {
+
+    var channel = "1";
+    var role = "1"
+    set(message,new1,channel,role);
+  });
+  
+  function set(o,n,channel,role){
+    if (!o.voiceChannel && n.voiceChannel) {
+      if (n.voiceChannelID == channel) {
+          n.addRole(n.guild.roles.find("name", role));
+      };
+  
+    } else if (o.voiceChannel && !n.voiceMove) {
+      if (o.voiceChannelID == channel) {
+          n.removeRole(n.guild.roles.find("name", role))
+  
+  
+  
+  } else if (o.voiceChannel && !n.voiceChannel) {
+      if (o.voiceChannelID == channel) {
+          n.removeRole(n.guild.roles.find("name", role))
+      }
+  }
+  }
+  }
 
 
 
