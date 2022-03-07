@@ -134,7 +134,7 @@ if(!guild) return;
 
 client.on("voiceStateUpdate", (message, new1) => {
 
-    var channel = "1";
+    var channel = "950187127021400165";
     var role = "1"
     set(message,new1,channel,role);
   });
