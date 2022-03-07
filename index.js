@@ -53,7 +53,7 @@ client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return
   const prefix = config.prefix
   if (!message.content.startsWith(prefix)) return
-  if (message.member.voice.channel.id === "950187127021400165");
+  //if (message.member.voice.channel.id === "950187127021400165");
   const args = message.content.slice(prefix.length).trim().split(/ +/g)
   const command = args.shift().toLowerCase()
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command))
